@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Backbone test page</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="http://underscorejs.org/underscore-min.js"></script>
+    <script src="http://backbonejs.org/backbone-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+</head>
+<body>
+
+
+
+<div id="container"> inside container</div>
+
+
+<script>
+
+
+
+    //create a Class extending Backbone.View
+
+    var MyView = Backbone.View.extend({
+        render:function(){
+            this.$el.html('<b>Ravi</b>')
+        }
+    })
+
+
+    //create instance of MyView
+
+    //--with root Element
+/*    var myViewInstance = new MyView({
+        el:'#container'
+    });
+    myViewInstance.render();*/
+
+
+
+    //--without root Element (needs append);
+
+    var myViewInstance = new MyView();
+    myViewInstance.render();
+
+    $('#container').html(myViewInstance.$el);
+
+
+</script>
+
+</body>
+</html>

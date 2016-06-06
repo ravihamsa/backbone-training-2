@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Backbone test page</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="http://underscorejs.org/underscore-min.js"></script>
+    <script src="http://backbonejs.org/backbone-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+</head>
+<body>
+
+
+
+<div id="container"> inside container</div>
+
+
+<script>
+
+
+
+    //create a Class extending Backbone.View
+
+    var templateString = '<div class="form-groups class1"> <label> {{label}} <input name="{{name}}" value="{{value}}" placeholder="{{placeHolder}}" type="{{type}}"/></label></div>'
+
+    var MyView = Backbone.View.extend({
+        template:Handlebars.compile(templateString),
+        events:{
+            'change input':'inputChangeHandler'
+        },
+
+        inputChangeHandler: function(event){
+            console.log(event.target);
+            this.model.set('value', event.target.value);
+        },
+        render:function(){
+            var dataObject = this.model.toJSON();
+            this.$el.append(this.template(dataObject))
+        }
+    })
+
+
+
+    var firstNameModel = new Backbone.Model({
+        label:'First Name ',
+        placeHolder:'Enter First Name',
+        name:'firstName'
+    })
+
+
+    var lastNameModel = new Backbone.Model({
+        label:'Last Name ',
+        placeHolder:'Enter Last Name',
+        name:'lastName'
+    })
+
+
+    //create instance of MyView
+
+
+
+    var types = ['text', 'checkbox', 'radio']
+
+    for(var i=0; i<20; i++){
+
+        var currentModel = new Backbone.Model({
+            label:'Label '+i,
+            placeHolder:'place holder' + i,
+            name:'name'+i,
+            value:'value'+i,
+            type: types[i % 3]
+        })
+
+
+        var currentViewInstance = new MyView({
+            model:currentModel
+        });
+
+        currentViewInstance.render();
+        $('#container').append(currentViewInstance.$el);
+    }
+
+
+
+
+
+</script>
+
+</body>
+</html>
